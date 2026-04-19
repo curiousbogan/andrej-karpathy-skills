@@ -1,12 +1,12 @@
 ---
 name: karpathy-guidelines
-description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
+description: Behavioral guidelines to reduce common LLM coding mistakes. Covers thinking before coding, simplicity, surgical changes, goal-driven execution, plus Windows/Railway environment gotchas and project context.
 license: MIT
 ---
 
-# Karpathy Guidelines
+# Karpathy Guidelines (Customized)
 
-Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
+Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) and customized for this workspace.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
@@ -65,3 +65,21 @@ For multi-step tasks, state a brief plan:
 ```
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+## 5. Platform & Environment
+
+**Windows + Git Bash has sharp edges. Know them.**
+
+- Git Bash silently converts Unix paths — use `MSYS_NO_PATHCONV=1` when passing Unix paths to CLI tools.
+- Before any Railway CLI operation, run `railway status` to confirm linked project/service.
+- Railway CLI timeouts are normal — retry before investigating.
+- Each OpenClaw instance needs its own unique Telegram bot token.
+
+## 6. Project Context
+
+**Know the landscape before touching anything.**
+
+- `sentinel-v2` — Python 3.12 FastAPI orchestrator (replaces Node.js legacy)
+- `strategy-factbase` — OpenClaw with 4 agents (Ares/Scout/Nova/Atlas)
+- `SentinalClawing` — Legacy production (being replaced)
+- Check deployed services before assuming. Don't mix Node.js patterns into Python projects.

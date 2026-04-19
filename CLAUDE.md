@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+Behavioral guidelines to reduce common LLM coding mistakes. Adapted from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) and customized for this workspace.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
@@ -62,4 +62,33 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ---
 
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+## 5. Platform & Environment
+
+**Windows + Git Bash has sharp edges. Know them.**
+
+- Git Bash silently converts Unix paths (e.g. `/data` → `C:/Program Files/Git/data`). Prefix with `MSYS_NO_PATHCONV=1` when passing Unix paths to CLI tools (Railway, curl, docker).
+- Before any Railway CLI operation, run `railway status` to confirm linked project/service — the CLI remembers the last link per directory and it's often wrong.
+- Railway CLI timeouts are normal. Retry before investigating.
+- Each OpenClaw instance needs its own unique Telegram bot token.
+
+## 6. Project Context
+
+**Know the landscape before touching anything.**
+
+Active projects live in `C:/Users/nicry/projects/`. Key ones:
+
+| Project | What it is | Stack |
+|---------|-----------|-------|
+| `sentinel-v2` | Hybrid orchestrator — FastAPI + Claude API direct | Python 3.12, asyncpg, Redis, arq |
+| `strategy-factbase` | OpenClaw deployment for strategy fact bases | Docker, 4 agents (Ares/Scout/Nova/Atlas) |
+| `SentinalClawing` | Legacy production system (OpenClaw config) | Node.js (being replaced by sentinel-v2) |
+| `openclaw-*` | OpenClaw template/worker/management repos | Node.js |
+
+Before working in any project:
+- Check which services are deployed where — don't assume from directory names.
+- Sentinel-v2 is self-contained Python; don't pull in Node.js patterns from the legacy system.
+- Strategy-factbase agent prompts (Nova, Atlas) may still need definition — check current state before assuming they're done.
+
+---
+
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, clarifying questions come before implementation rather than after mistakes, and zero "deployed to the wrong service" incidents.
